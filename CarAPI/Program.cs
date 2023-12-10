@@ -36,7 +36,15 @@ app.MapGet("/car", () =>
 
 app.MapGet("/car/{id}", (int id) =>
 {
-    return cars.Find(c => c.Id == id);
+    var car = cars.Find(c => c.Id == id);
+   if(car == null)
+    {
+        return Results.NotFound("This car doesn't exist.");
+    }
+   else
+    {
+        return Results.Ok(car);
+    }
 });
 
 
