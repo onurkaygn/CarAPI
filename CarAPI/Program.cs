@@ -73,6 +73,18 @@ app.MapPut("/car/{id}", (Car updatedCar, int id) =>
 
 });
 
+app.MapDelete("/car/{id}", (int id) =>
+{
+    var car = cars.Find(c => c.Id == id);
+    if (car is null)
+
+        return Results.NotFound("This car doesn't exist.");
+
+    cars.Remove(car);
+
+    return Results.Ok(car);
+
+});
 
 
 app.Run();
