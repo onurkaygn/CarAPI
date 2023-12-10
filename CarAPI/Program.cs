@@ -37,7 +37,7 @@ app.MapGet("/car", () =>
 app.MapGet("/car/{id}", (int id) =>
 {
     var car = cars.Find(c => c.Id == id);
-   if(car == null)
+   if(car is null)
     {
         return Results.NotFound("This car doesn't exist.");
     }
@@ -46,6 +46,22 @@ app.MapGet("/car/{id}", (int id) =>
         return Results.Ok(car);
     }
 });
+
+app.MapPost("/car", (Car newCar) =>
+{
+
+    if (cars.Any(c => c.Id == newCar.Id))
+    {
+        return Results.BadRequest("A car with the same ID already exists. Please choose a different ID.");
+    }else
+    {
+        cars.Add(newCar);
+
+        return Results.Ok(cars);
+    }
+
+});
+
 
 
 app.Run();
